@@ -28,13 +28,16 @@ class Kalashnikov: GameObject {
     Vec2 vecm = (im.cusorPos - tform.pos).unit;
     vecm = vecm.rot(-45);
     vecm *= 500;
+    tform.rot = 90 * atan(vecm.y / vecm.x);
+    Vec2 fixvec = Vec2(90,2);
+    fixvec = fixvec.rot(tform.rot);
     if(im.mouseOnce(0)){
-      register(new Missile(Missile.Type.CCCP, vecm, tform.worldPos));
+      register(new Missile(Missile.Type.CCCP, vecm, tform.worldPos + fixvec));
+
       // vv bgm vv
       audio.volume(10);
       audio.play(1);
       //foreach(int i; 0..628) register(new Missile(Missile.Type.Divergence, Vec2(-cos(i * 0.01), sin(i * 0.01)), tform.pos));
     }
-    dbg(tform.rot = 90 * (atan(vecm.y / vecm.x)));
   }
 }

@@ -12,12 +12,14 @@ class Enemy1: Enemy {
     super(initPos);
   }
 
-  override void eachsetup() {
+  override void setup() {
+    super.setup();
     lifin = register(new LifeIndicator(this.component!Status));
     rigid = register(new RigidBody(1, 1, 10));
   }
 
-  override void eachloop() {
+  override void loop() {
+    super.loop();
     if(this.component!Status.isDamaged){
       rigid.addForce(Vec2(200,-200));
       this.component!Status.isDamaged = false;
