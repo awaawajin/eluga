@@ -15,7 +15,8 @@ class Game: GameObject {
   }
 
   override void setup() {
-    register(new HomeScene);
+    //register(new HomeScene);
+    register(new GameOverScene);
 
     // test msg
     // dbg("Hello, This is DBG");
