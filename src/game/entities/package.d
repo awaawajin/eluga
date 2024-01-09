@@ -6,8 +6,12 @@ public import game.entities.Enemy1;
 public import game.entities.Enemy;
 public import game.entities.Hero;
 public import game.entities.Kalashnikov;
+<<<<<<< HEAD
 public import game.entities.LifeIndicator;
 public import game.entities.Missile;
 public import game.entities.Point;
 public import game.entities.TimeLimitClock;
 public import game.entities.UI;
+=======
+public import game.entities.Title;
+>>>>>>> 17a6e1d (DPRK funeral)
