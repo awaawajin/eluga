@@ -25,8 +25,6 @@ class Enemy: GameObject {
     auto rend = register(new SpriteRenderer(enemy));
 
     auto colid = register(new BoxCollider(rend.size));
-
-    eachsetup;
   }
 
   override void loop(){
@@ -37,13 +35,7 @@ class Enemy: GameObject {
       death;
       destroy;
     }
-
-    eachloop;
   }
-
-  void eachsetup() {}; // 各自の初動処理
-
-  void eachloop() {}; // 各自のループ処理
 
   void death() {} // 死と向き合う関数
 }
