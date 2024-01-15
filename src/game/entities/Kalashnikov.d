@@ -33,7 +33,6 @@ class Kalashnikov: GameObject {
     fixvec = fixvec.rot(tform.rot);
     if(im.mouseOnce(0)){
       register(new Missile(Missile.Type.CCCP, vecm, tform.worldPos + fixvec));
-
       // vv bgm vv
       audio.volume(10);
       audio.play(1);

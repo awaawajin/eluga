@@ -9,21 +9,25 @@ class Transform: Component {
     Center,
   }
 
-  // 相対座標か絶対座標か
+  // 相対座標か絶対座標か初期位置のみ相対座標か
   enum Org{
     World,
     Local,
+    Spawn,
   }
 
   // 一般座標系
   private Zoom zoom;
   private Org org;
-  Vec2 pos = Vec2(0,0);
-  Vec2 worldPos = Vec2(0,0);
+  Vec2 pos = Vec2(0, 0);
+  Vec2 worldPos = Vec2(0, 0);
+  Vec2 basePos = Vec2(0, 0); // 基準点(オブジェクトでのゼロ点)
   real rot = 0;
-  Vec2 scale = Vec2(1,1);
+  Vec2 scale = Vec2(1, 1);
   GameObject cgo;
   Camera cc;
+
+  private bool looped;
 
   // Obj範囲内にWinのどっちかの端があるかという考え方
   bool isin(Vec2 sz,bool d = false) {
@@ -34,7 +38,6 @@ class Transform: Component {
   } 
 
   bool isZoomCenter() => (zoom == Zoom.Center);
-  auto doNotTraceMe() => org = Org.Local;
 
   this(Org worldType = Org.Local, Zoom zoomType = Zoom.Corner){
     zoom = zoomType;
@@ -43,17 +46,18 @@ class Transform: Component {
 
   auto translate(Vec2 d) => pos += d;
 
-  override void loop(){
+  override void loop() {
     campos;
-    worldPos = pos;
+    worldPos = pos + basePos;
     
     auto parent = go.parent;
     if(!parent.has!Transform) return;
 
     // 親位置
     auto pPos = parent.component!Transform;
-    if(org == Org.Local) worldPos += pPos.worldPos;
+    if(org == Org.Local || (org == Org.Spawn && !looped)) basePos = pPos.worldPos;
     cc = cgo is null ? null : cgo.component!Camera; // Cameraを参照します
+    looped = true;
   }
 
   // カメラ座標系
