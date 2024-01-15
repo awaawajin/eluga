@@ -50,6 +50,7 @@ class GameObject: Loggable {
 
   package void realSetup(Context* ctx) {
     this._ctx = ctx;
+    SDL_SetRenderDrawBlendMode(ctx.r, SDL_BLENDMODE_BLEND);
     debug {
       layer++;
       debugSetupPre;
@@ -118,6 +119,7 @@ class GameObject: Loggable {
   }
 
   void color(ubyte r, ubyte g, ubyte b, ubyte a = 255) {
+    //dbg("僕は皇帝Hikakin: ", r, ", ", g, ", ", b, ", ", a);
     ctx.layers[layer] ~= {
       SDL_SetRenderDrawColor(ctx.r, r, g, b, a);
     };
