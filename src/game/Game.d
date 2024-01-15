@@ -19,6 +19,8 @@ class Game: GameObject {
       Routes.Home: new HomeScene(),
       Routes.Editor: new EditorScene(),
     ]));
+    //register(new HomeScene);
+    //register(new GameOverScene);
 
     // test msg
     // dbg("Hello, This is DBG");
