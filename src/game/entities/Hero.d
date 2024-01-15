@@ -18,7 +18,9 @@ class Hero: GameObject {
   int jumpRemain = DefaultJumpRemain;
   bool fromGround = false;
 
-  Timer tmr;
+  Timer rndtmr;
+  Timer dashtmr;
+  bool isDash;
 
   Vec2 v = Vec2(2, 2);
 
@@ -31,7 +33,8 @@ class Hero: GameObject {
     auto rend = register(new SpriteRenderer(hero0));
     register(new BoxCollider(rend.size));
     register(new Focus(3));
-    tmr = new Timer;
+    rndtmr = new Timer;
+    dashtmr = new Timer;
 
     addTag("Player");
 
@@ -52,10 +55,20 @@ class Hero: GameObject {
         rb.v.x = -v.x;
         dir.x = -1;
       }
+      if(dashtmr.cur >= 1000) isDash = true;
+      if(dashtmr.cur >= 250 && isDash){
+        auto dust = register(new Dust);
+        dust.component!Transform.pos += Vec2(0, 100);
+        dashtmr.reset;
+      }
     }else{
       rb.v.x = 0;
       rb.v.x = 0;
+      isDash = false;
+      dashtmr.reset;
     }
+
+    if(!fromGround) dashtmr.reset;
 
     //jump
     if(jumpRemain > 0 && im.keyOnce(' ')){
@@ -71,9 +84,11 @@ class Hero: GameObject {
     }
 
     // Effect Test
-    if(tmr.cur>=1_000) {
-      register(new Effect);
-      tmr.reset;
+    auto randomSrc = Random(cast(int)rndtmr.cur);
+    if(rndtmr.cur>=uniform(50, 250, randomSrc)) {
+      auto wair = register(new WeirdAir);
+      wair.component!Transform.pos += Vec2(uniform(0, 50, randomSrc), uniform(0, 120, randomSrc));
+      rndtmr.reset;
     }
   }
 
