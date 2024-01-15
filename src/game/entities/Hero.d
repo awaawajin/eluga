@@ -18,8 +18,7 @@ class Hero: GameObject {
   int jumpRemain = DefaultJumpRemain;
   bool fromGround = false;
 
-  //// 仮工事
-  //real theta = 0;
+  Timer tmr;
 
   Vec2 v = Vec2(2, 2);
 
@@ -31,9 +30,12 @@ class Hero: GameObject {
     auto hero0 = new ImageAsset("hero0.png");
     auto rend = register(new SpriteRenderer(hero0));
     register(new BoxCollider(rend.size));
-    register(new Focus(3)); 
-    register(new Kalashnikov);
+    register(new Focus(3));
+    tmr = new Timer;
+
     addTag("Player");
+
+    register(new Kalashnikov);
   }
 
   override void loop() {
@@ -66,6 +68,12 @@ class Hero: GameObject {
     // missile
     if(im.keyOnce('\r')){
       register(new Missile(Missile.Type.Normal, dir, tform.pos + Vec2(0,20)));
+    }
+
+    // Effect Test
+    if(tmr.cur>=1_000) {
+      register(new Effect);
+      tmr.reset;
     }
   }
 

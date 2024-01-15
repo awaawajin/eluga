@@ -3,6 +3,12 @@ module engine.components.Transform;
 import engine;
 
 class Transform: Component {
+  // 左端基準ズームか中心基準ズームか
+  enum Zoom{
+    Corner,
+    Center,
+  }
+
   // 相対座標か絶対座標か
   enum Org{
     World,
@@ -10,6 +16,7 @@ class Transform: Component {
   }
 
   // 一般座標系
+  private Zoom zoom;
   private Org org;
   Vec2 pos = Vec2(0,0);
   Vec2 worldPos = Vec2(0,0);
@@ -26,7 +33,11 @@ class Transform: Component {
     return cc is null ? false : !(((worldPos.x > cc.pos.x + cc.size.x) || (worldPos.x + sz.x < cc.pos.x)) || ((worldPos.y + sz.y < cc.pos.y) || (worldPos.y > cc.pos.y + cc.size.y)));
   } 
 
-  this(Org worldType = Org.Local){
+  bool isZoomCenter() => (zoom == Zoom.Center);
+  auto doNotTraceMe() => org = Org.Local;
+
+  this(Org worldType = Org.Local, Zoom zoomType = Zoom.Corner){
+    zoom = zoomType;
     org = worldType;
   }
 
